@@ -95,23 +95,25 @@ window.onload = function() {
             }, 3000);
         }
 
-        fetch("data.json")
-            .then(response => {
-                if(!response.ok){
-                    throw new Error("Erreur de récuper du fichier JSON");
-                }
-                return response.json();
-            })
-            .then(data => {
-                if(Object.keys(data).length === 0){
-                    data = datas;
-                }else{
-                    Object.assign(data, datas);
-                }
-                console.log(data);
-            })
-            .catch(error => {
-                console.error("Erreur lors de la récup des données", error);
-            });
+        setTimeout(() => {
+            fetch("data.json")
+                .then(response => {
+                    if(!response.ok){
+                        throw new Error("Erreur de récuper du fichier JSON");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if(Object.keys(data).length === 0){
+                        data = datas;
+                    }else{
+                        Object.assign(data, datas);
+                    }
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error("Erreur lors de la récup des données", error);
+                });
+        }, 5000);
     });
 };
