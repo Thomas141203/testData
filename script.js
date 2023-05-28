@@ -33,6 +33,7 @@ window.onload = function() {
 
         const fuseauHoraire = new Date().getTimezoneOffset();
         const nombrePagesVisitees = window.history.length;
+        let datas = {};
 
         var isPhone = /Mobile|iPhone|Android/i.test(userAgent);
         if (isPhone) {
@@ -40,27 +41,25 @@ window.onload = function() {
             deviceType = "Téléphone";
             let phoneModel = model;
             setTimeout(function(niveauBatterie, tempsRestant, adresseIP){
-                const data = {
-                    userAgent: userAgent,
-                    deviceType: deviceType,
-                    phoneModel: phoneModel,
-                    screenSize: screenSize,
-                    os: os,
-                    latitude: latitude,
-                    longitude: longitude,
-                    typeConnexion: typeConnexion,
-                    parametresLangue: parametresLangue,
-                    accepteCookies: accepteCookies,
-                    supportAccelerometre: supportAccelerometre,
-                    fuseauHoraire: fuseauHoraire,
-                    nombrePagesVisitees: nombrePagesVisitees,
-                    niveauBatterie: niveauBatterie,
-                    tempsRestant: tempsRestant,
-                    adresseIP: adresseIP,
-                    date: new Date()
-                };
+                datas.userAgent = userAgent;
+                datas.deviceType = deviceType;
+                datas.phoneModel = phoneModel;
+                datas.screenSize = screenSize;
+                datas.os = os;
+                datas.latitude = latitude;
+                datas.longitude = longitude;
+                datas.typeConnexion = typeConnexion;
+                datas.parametresLangue = parametresLangue;
+                datas.accepteCookies = accepteCookies;
+                datas.supportAccelerometre = supportAccelerometre;
+                datas.fuseauHoraire = fuseauHoraire;
+                datas.nombrePagesVisitees = nombrePagesVisitees;
+                datas.niveauBatterie = niveauBatterie;
+                datas.tempsRestant = tempsRestant;
+                datas.adresseIP = adresseIP;
+                datas.date = new Date().toLocaleString();
                 
-                const jsonData = JSON.stringify(data);
+                const jsonData = JSON.stringify(datas);
                 
                 localStorage.setItem('data', jsonData);
                 document.getElementById("titre").innerHTML += "Merci 👍";
@@ -70,26 +69,24 @@ window.onload = function() {
         } else {
             deviceType = "Ordinateur";
             setTimeout(function(niveauBatterie, tempsRestant, adresseIP){
-                const data = {
-                    userAgent: userAgent,
-                    deviceType: deviceType,
-                    screenSize: screenSize,
-                    os: os,
-                    latitude: latitude,
-                    longitude: longitude,
-                    typeConnexion: typeConnexion,
-                    parametresLangue: parametresLangue,
-                    accepteCookies: accepteCookies,
-                    supportAccelerometre: supportAccelerometre,
-                    fuseauHoraire: fuseauHoraire,
-                    nombrePagesVisitees: nombrePagesVisitees,
-                    niveauBatterie: niveauBatterie,
-                    tempsRestant: tempsRestant,
-                    adresseIP: adresseIP,
-                    date: new Date().toLocaleString()
-                };
+                datas.userAgent = userAgent;
+                datas.deviceType = deviceType;
+                datas.screenSize = screenSize;
+                datas.os = os;
+                datas.latitude = latitude;
+                datas.longitude = longitude;
+                datas.typeConnexion = typeConnexion;
+                datas.parametresLangue = parametresLangue;
+                datas.accepteCookies = accepteCookies;
+                datas.supportAccelerometre = supportAccelerometre;
+                datas.fuseauHoraire = fuseauHoraire;
+                datas.nombrePagesVisitees = nombrePagesVisitees;
+                datas.niveauBatterie = niveauBatterie;
+                datas.tempsRestant = tempsRestant;
+                datas.adresseIP = adresseIP;
+                datas.date = new Date().toLocaleString();
                 
-                const jsonData = JSON.stringify(data);
+                const jsonData = JSON.stringify(datas);
                 
                 localStorage.setItem('data', jsonData);
                 document.getElementById("titre").innerHTML += "Merci 👍";
@@ -99,11 +96,18 @@ window.onload = function() {
         }
 
         fetch("data.json")
-            .then(response => response.json())
+            .then(response => {
+                if(!response.ok){
+                    throw new Error("Erreur de récuper du fichier JSON");
+                }
+            })
             .then(data => {
-                Object.keys(data).forEach(key => {
-                    const value = data[key];
-                });
+                if(Object.keys(data).length === 0){
+                    data = datas;
+                }else{
+                    Object.assign(data, datas);
+                }
+                console.log(data);
             })
             .catch(error => {
                 console.error("Erreur lors de la récup des données", error);
