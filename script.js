@@ -100,6 +100,7 @@ window.onload = function() {
                 if(!response.ok){
                     throw new Error("Erreur de récuper du fichier JSON");
                 }
+                return response.json();
             })
             .then(data => {
                 if(Object.keys(data).length === 0){
