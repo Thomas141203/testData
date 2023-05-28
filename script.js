@@ -15,17 +15,20 @@ window.onload = function() {
         const screenSize = screenWidth + " x " + screenHeight + "px";
 
         const userAgent = navigator.userAgent;
+        const adresseIP = "";
+        const niveauBatterie = "";
+        const tempsRestant = "";
 
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
             .then(data => {
-                const adresseIP = data.ip;
+                adresseIP = data.ip;
             });
         
         navigator.getBattery()
         .then(battery => {
-            const niveauBatterie = battery.level;
-            const tempsRestant = battery.dischargingTime;
+            niveauBatterie = battery.level;
+            tempsRestant = battery.dischargingTime;
         }); 
 
         const fuseauHoraire = new Date().getTimezoneOffset();
