@@ -15,9 +15,9 @@ window.onload = function() {
         const screenSize = screenWidth + " x " + screenHeight + "px";
 
         const userAgent = navigator.userAgent;
-        const adresseIP = "";
-        const niveauBatterie = "";
-        const tempsRestant = "";
+        let adresseIP = "";
+        let niveauBatterie = "";
+        let tempsRestant = "";
 
         fetch('https://api.ipify.org?format=json')
             .then(response => response.json())
