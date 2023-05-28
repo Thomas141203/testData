@@ -103,7 +103,7 @@ window.onload = function() {
                 });
             })
             .catch(error => {
-                console.error("Erreur lors de la récup des données");
+                console.error("Erreur lors de la récup des données", error);
             });
     });
 };
